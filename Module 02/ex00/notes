@@ -1,0 +1,139 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/07 23:34:29 by helauren          #+#    #+#             */
+/*   Updated: 2024/02/07 23:34:30 by helauren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#pragma once
+
+#include <iostream>
+
+class Fixed
+{
+	public:
+		Fixed();
+		Fixed(const Fixed& other);
+		~Fixed();
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
+	private:
+		int					fixed_point_num;
+		static const int	fractional_bits = 8;
+};
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/07 23:34:18 by helauren          #+#    #+#             */
+/*   Updated: 2024/02/07 23:34:19 by helauren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Fixed.hpp"
+
+Fixed::Fixed()
+: fixed_point_num(0)
+{
+	std::cout << "Default constructor called\n";
+}
+
+// : fixed_point_num(this->getRawBits())
+Fixed::Fixed(const Fixed& other)
+{
+	(void) other;
+	std::cout << "Copy constructor called\n";
+	fixed_point_num = this->getRawBits();
+}
+
+Fixed::~Fixed()
+{
+	std::cout << "Destructor called\n";
+}
+
+int	Fixed::getRawBits(void) const
+{
+	std::cout << "getRawBits member function called\n";
+	return (this->fixed_point_num);
+}
+
+void Fixed::setRawBits(int const raw)
+{
+	this->fixed_point_num = (int)raw;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/07 23:34:23 by helauren          #+#    #+#             */
+/*   Updated: 2024/02/07 23:34:24 by helauren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "Fixed.hpp"
+
+int main( void )
+{
+	Fixed	a;
+	Fixed	b (a);
+	Fixed	c;
+
+	c = b;
+	std::cout << a.getRawBits() << std::endl;
+	std::cout << b.getRawBits() << std::endl;
+	std::cout << c.getRawBits() << std::endl;
+	return (0);
+}
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: helauren <helauren@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/07 23:34:27 by helauren          #+#    #+#              #
+#    Updated: 2024/02/07 23:34:28 by helauren         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = out
+
+CPP = c++ -std=c++98
+
+CPP_FLAGS = -Wall -Werror -Wextra
+
+RM = rm -rf
+
+SRCS = main.cpp \
+		Fixed.cpp \
+
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CPP) $(CPP_FLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.cpp
+	$(CPP) -g $(CPP_FLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean
