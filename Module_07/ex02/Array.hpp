@@ -17,20 +17,18 @@ class Array
 			this->arrLength = 0;
 			std::cout << "default constructor called = " << this << std::endl;
 		}
-		Array(int n)
+		Array(unsigned int n)
 		{
-			if(n < 0)
-				throw indexValueTooLow();
 			this->arr = new T [n];
 			this->toFree = true;
-			this->arrLength = (unsigned int)n;
-			std::cout << "int constructor called = " << this << std::endl;
+			this->arrLength = n;
+			std::cout << "unsigned int size constructor called = " << this << std::endl;
 		}
 		Array(Array& copy)
 		{
 			std::cout << "copy constructor called = " << this << std::endl;
 			this->arrLength = copy.arrLength;
-			this->toFree = true;
+			this->toFree = copy.toFree;
 			this->arr = new T [copy.arrLength];
 			for (unsigned int i = 0; i < copy.arrLength; i++)
 				this->arr[i] = copy.arr[i];
@@ -44,7 +42,6 @@ class Array
 			this->arrLength = rhs.arrLength;
 			this->toFree = true;
 			this->arr = new T [rhs.arrLength];
-			std::cout << "tmp arr addr = " << this->arr << std::endl;
 			for (unsigned int i = 0; i < rhs.arrLength; i++)
 				this->arr[i] = rhs.arr[i];
 			return (*this);
@@ -72,30 +69,42 @@ class Array
 			return (this->arr[n]);
 		}
 
-
 		// Destruction
 		~Array()
 		{
 			std::cout << "destructor called\n";
-			std::cout << "address = " << this << std::endl;
 			if(this->toFree == true && this->arr != NULL)
 			{
 				this->toFree = false;
-				std::cout << "addr to free = " << arr << std::endl;
 				delete [] this->arr;
 				this->arr = NULL;
-				std::cout << "it is freed\n\n";
 			}
 		}
+
+		// GETTERS
+		unsigned int	getArrayLength() const
+		{
+			return (this->arrLength);
+		}
+		
+		T	getArrElement(int i) const
+		{
+			return (this->arr[i]);
+		}
+
 	private:
-		bool		toFree;
-		unsigned int arrLength;
+		bool			toFree;
+		unsigned int	arrLength;
 		T *arr;
 };
 
 template<typename T>
 std::ostream	&operator<<(std::ostream &stream, const Array<T>& rhs)
 {
+	for(int i = 0; static_cast<unsigned int>(i) < rhs.getArrayLength(); i++)
+	{
+		stream << "rhs[" << i << "]: " << rhs.getArrElement(i) << std::endl;
+	}
 	stream << &rhs << std::endl;
 	return (stream);
 }

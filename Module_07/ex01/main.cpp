@@ -6,7 +6,7 @@
 /*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 06:33:32 by helauren          #+#    #+#             */
-/*   Updated: 2024/02/27 20:42:47 by helauren         ###   ########.fr       */
+/*   Updated: 2024/05/15 03:16:58 by helauren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,33 @@ void	init97(T& arr)
 }
 
 template<typename T>
-void	ouput(T arr)
+void	output(T arr)
 {
+	std::cout << arr << "\n";
+}
+
+template<typename T>
+void	incrOutput(T arr)
+{
+	arr += 1;
 	std::cout << arr << "\n";
 }
 
 int	main(void)
 {
 	int arrInt[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+	iter(arrInt, 10, output);
+	iter(arrInt, 10, incrOutput);
+	iter(arrInt, 10, init97);
+	iter(arrInt, 10, output);
+
 	std::string arrString[4] = {"abc", "dfg", "hij", "klm"};
 
-	iter(arrInt, 10, ouput);
-	iter(arrInt, 10, init97);
-	iter(arrInt, 10, ouput);
-
-	iter(arrString, 4, ouput);
+	iter(arrString, 4, output);
+	// iter(arrString, 10, incrOutput);
 	iter(arrString, 4, init97);
-	iter(arrString, 4, ouput);
+	iter(arrString, 4, output);
 }
 
 // int	main(void)

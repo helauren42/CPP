@@ -50,6 +50,7 @@ int main(int, char**)
 	{
 		numbers[i] = rand();
 	}
+	std::cout << numbers;
 	delete [] mirror;
 	return 0;
 }
