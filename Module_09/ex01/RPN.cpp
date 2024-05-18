@@ -80,7 +80,6 @@ bool	RPN::isValidContent() const
 			if(this->isValidNum(*it) == false && this->validOperators(*it) == false)
 				throw (defaultException("Error: this is not a number nor an operator " + *it));
 	}
-	outputStringVector(this->raw_content);
 
 	int	operators = 0;
 	int	operands = 0;
@@ -103,13 +102,26 @@ int	RPN::compute(int first, int second, char c)
 {
 	int	result = 0;
 	if(c == '+')
+	{
 		result = first + second;
+		cout << "+\n";
+	}
 	if(c == '-')
+	{
 		result = first - second;
+		cout << "-\n";
+	}
 	if(c == '/')
+	{
 		result = first / second;
+		cout << "/\n";
+	}
 	if(c == '*')
+	{
 		result = first * second;
+		cout << "*\n";
+	}
+	cout << "first: " << first << ", second: " << second << ", result: " <<  result << endl;
 	return (result);
 }
 
@@ -132,9 +144,9 @@ void	RPN::executeOperations()
 		else
 		{
 			std::vector<int>::iterator stackIt = this->stack.end() -1;
-			int	first = *stackIt;
-			stackIt--;
 			int	second = *stackIt;
+			stackIt--;
+			int	first = *stackIt;
 			this->stack.pop_back();
 			this->stack.pop_back();
 			this->stack.push_back(compute(first, second, (*it)[0]));
