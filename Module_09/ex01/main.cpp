@@ -1,34 +1,44 @@
 #include "RPN.hpp"
 
 
-std::vector<std::string> lexirArgs(std::vector<std::string> args)
+std::queue<std::string> lexirArgs(std::queue<std::string> args)
 {
-	std::vector<std::string>	vec;
+	std::queue<std::string>		vec;
 	std::stringstream			ss;
 	std::string					temp;
 
-	for (std::vector<std::string>::iterator it = args.begin() ; it != args.end(); it++)
+	while (args.empty() == false)
 	{
 		ss.clear();
-		ss << *it;
+		ss << args.front();
 		ss >> temp;
 		while(temp.empty() == false)
 		{
-			vec.push_back(temp);
+			vec.push(temp);
 			temp.erase(0, temp.length());
 			ss >> temp;
 		}
+		args.pop();
 	}
 	return (vec);
 }
 
-void	outputStringVector(std::vector<std::string> s)
+void	outputQueue(std::queue<std::string> s)
 {
-	for(std::vector<std::string>::iterator it = s.begin(); it != s.end(); it++)
+	while(s.empty() == false)
 	{
-		std::cout << *it << endl;
+		std::cout << s.front() << endl;
+		s.pop();
 	}
 }
+
+// void	outputStringVector(std::vector<std::string> s)
+// {
+// 	for(std::vector<std::string>::iterator it = s.begin(); it != s.end(); it++)
+// 	{
+// 		std::cout << *it << endl;
+// 	}
+// }
 
 int main(int ac, char **av)
 {
@@ -40,11 +50,15 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		std::vector<std::string>	args;
+		std::queue<std::string>	args;
+		cout << "here1\n";
 		for(int i = 1; av[i]; i++)
-			args.push_back(av[i]);
+			args.push(av[i]);
+		cout << "here1\n";
 		RPN	classy(lexirArgs(args));
+		cout << "here1\n";
 		classy.isValidContent();
+		cout << "here1\n";
 		classy.executeOperations();
 	}
 	catch(const std::exception& e)

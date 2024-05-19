@@ -3,9 +3,10 @@
 RPN::RPN()
 {}
 
-RPN::RPN(const std::vector<std::string>& s)
+RPN::RPN(const std::queue<std::string>& s)
 : raw_content(s)
-{}
+{
+}
 
 RPN::~RPN()
 {}
@@ -68,30 +69,38 @@ bool	RPN::isValidNum(const std::string& s) const
 
 bool	RPN::isValidContent() const
 {
+	std::queue<std::string>	temp1(this->raw_content);
+	std::queue<std::string>	temp2(this->raw_content);
+	std::string	s;
+
 	if(this->raw_content.empty() == true)
 		throw (defaultException("No numbers or operators provided"));
-	if(vectorLength(this->raw_content) <= 2)
+	if(this->raw_content.size() <= 2)
 		throw (defaultException("Not enough numbers and operators to compute"));
-	for (std::vector<std::string>::const_iterator it = this->raw_content.begin(); it != this->raw_content.end(); it++)
+	while (temp1.empty() == false)
 	{
-		if(it->length() > 2)
-			throw (defaultException("String provided too long: " + *it));
+		s = temp1.front();
+		if(s.length() > 2)
+			throw (defaultException("String provided too long: " + s));
 		else
-			if(this->isValidNum(*it) == false && this->validOperators(*it) == false)
-				throw (defaultException("Error: this is not a number nor an operator " + *it));
+			if(this->isValidNum(s) == false && this->validOperators(s) == false)
+				throw (defaultException("Error: this is not a number nor an operator " + s));
+		temp1.pop();
 	}
 
 	int	operators = 0;
 	int	operands = 0;
 	int	i = 1;
-	for (std::vector<std::string>::const_iterator it = this->raw_content.begin(); it != this->raw_content.end(); it++, i++)
+	while (temp2.empty() == false)
 	{
-		if(this->isValidNum(*it) == true)
+		s = temp2.front();
+		if(this->isValidNum(s) == true)
 			operands++;
 		else
 			operators++;
 		if(operators >= operands)
 			throw (logicalErrorException("verify operators and operands"));
+		temp2.pop();
 	}
 	if(operators != operands -1)
 		throw (logicalErrorException("wrong amount of operators and operands"));
@@ -129,28 +138,30 @@ int	RPN::compute(int first, int second, char c)
 void	RPN::executeOperations()
 {
 	std::stringstream	ss;
+	std::string			s;
 	int					num;
 
-	for (std::vector<std::string>::const_iterator it = this->raw_content.begin(); it != this->raw_content.end(); it++)
+	while (this->raw_content.empty() == false)
 	{
-		if(this->isValidNum(*it) == true)
+		s = this->raw_content.front();
+		if(this->isValidNum(s) == true)
 		{
 			ss.str("");
 			ss.clear();
-			ss << *it;
+			s = this->raw_content.front();
+			ss << s;
 			ss >> num;
-			this->stack.push_back(num);
+			this->stack.push(num);
 		}
 		else
 		{
-			std::vector<int>::iterator stackIt = this->stack.end() -1;
-			int	second = *stackIt;
-			stackIt--;
-			int	first = *stackIt;
-			this->stack.pop_back();
-			this->stack.pop_back();
-			this->stack.push_back(compute(first, second, (*it)[0]));
+			int	second = stack.top();
+			this->stack.pop();
+			int	first = stack.top();
+			this->stack.pop();
+			this->stack.push(compute(first, second, (s)[0]));
 		}
+		this->raw_content.pop();
 	}
-	cout << "FINAL RESULT IS: " << this->stack[0] << endl; 
+	cout << "FINAL RESULT IS: " << this->stack.top() << endl; 
 }

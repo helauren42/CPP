@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
 #include <exception>
 #include <sstream>
 
@@ -20,12 +22,11 @@ struct lexir
 	int			type;
 };
 
-
 class RPN
 {
 	public:
 		RPN();
-		RPN(const std::vector<std::string>& s);
+		RPN(const std::queue<std::string>& s);
 		~RPN();
 		bool    validOperators(const std::string& s) const;
 		bool	isValidContent() const;
@@ -44,6 +45,7 @@ class RPN
 			private:
 				std::string	error_message;
 		};
+
 		class	logicalErrorException : public std::exception
 		{
 			public:
@@ -55,9 +57,9 @@ class RPN
 		};
 
 	private:
-		std::vector<std::string>	raw_content;
-		std::vector<int>			stack;
+		std::queue<std::string>	raw_content;
+		std::stack<int>				stack;
 };
 
-void	outputStringVector(std::vector<std::string> s);
-std::vector<std::string> lexirArgs(std::vector<std::string> args);
+void	outputQueue(std::queue<std::string> s);
+std::queue<std::string> lexirArgs(std::queue<std::string> args);

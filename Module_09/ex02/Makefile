@@ -1,8 +1,8 @@
-NAME = RPN
+NAME = PmergeMe
 
 CXX = c++
 
-CXX_FLAGS = -g3 -Wall -Werror -Wextra
+CXX_FLAGS = -Wall -Werror -Wextra
 
 SRCS = main.cpp RPN.cpp\
 
