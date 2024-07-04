@@ -6,7 +6,7 @@
 /*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 00:52:49 by helauren          #+#    #+#             */
-/*   Updated: 2024/05/14 20:55:20 by helauren         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:33:03 by helauren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,13 @@ void	ScalarTypes::convertInt(std::string s)
 	this->character = static_cast<char>(this->integer);
 }
 
-
 bool	ScalarTypes::isValidInput(std::string s)
 {
 	this->valid = VALID;
+	if (s.compare("nan") == 0 || s.compare("+inf") == 0 ||
+		s.compare("-inf") == 0 || s.compare("+inff") == 0 ||
+		s.compare("-inff") == 0)
+		return (true);
 	this->setLenDecimal(0);
 	for(int i = 0; s[i]; i++)
 	{
@@ -103,12 +106,10 @@ bool	ScalarTypes::isValidInput(std::string s)
 		if(s.length() != 1 && s[i] != '.' && s[i] != '-' && std::isdigit(s[i]) == false)
 			return (false);
 	}
-
 	size_t	pos = 0;
 	pos = s.find('.');
-	if(pos != s.find_first_of('.', pos)) // if more than two dots then error
+	if((s.find_first_of('.', pos) != s.find_last_of('.')) || (pos != std::string::npos && s.length() == 1)) // if more than two dots then error
 		return (false);
-	pos = s.find_first_of('.');
 	if(pos == std::string::npos)
 		return (true);
 	pos++;
@@ -146,6 +147,8 @@ void	ScalarTypes::convert(std::string s)
 		case numInt:
 			this->convertInt(s);
 			break;
+		default:
+			break;
 	}
 	if(this->getLenDecimal() > 6)
 		this->setLenDecimal((size_t)6);
@@ -157,8 +160,12 @@ void	ScalarTypes::setUnvalid(std::string s)
 {
 	if(s == "-inf")
 		this->valid = NEGINF;
+	else if(s == "-inff")
+		this->valid = NEGINFF;
 	else if(s == "+inf")
 		this->valid = POSINF;
+	else if(s == "+inff")
+		this->valid = POSINFF;
 	else
 		this->valid = ERROR;
 }
@@ -170,7 +177,17 @@ void	ScalarTypes::setLenDecimal(size_t value)
 
 void	ScalarTypes::setType(std::string s)
 {
-	if(s.length() == 1 && std::isprint(s[0]) && !std::isdigit(s[0]))
+	if (s.compare("nan") == 0) 
+		this->type = NAN;
+	else if (s.compare("-inf") == 0)
+		this->type = NEGINF;
+	else if (s.compare("-inff") == 	0)
+		this->type = NEGINFF;
+	else if (s.compare("+inf") == 0)
+		this->type = POSINF;
+	else if (s.compare("+inff") == 	0)
+		this->type = POSINFF;
+	else if(s.length() == 1 && std::isprint(s[0]) && !std::isdigit(s[0]))
 		this->type = numChar;
 	else if(s[s.length() -1] == 'f')
 		this->type = numFloat;
@@ -247,25 +264,42 @@ std::ostream	&operator<<(std::ostream &stream, ScalarTypes const &scalartypes)
 		case 3:
 			stream << "Int";
 			break;
+		case 4:
+			stream << "NAN";
+			break;
+		case 5:
+			stream << "-inf";
+			break;
+		case 6:
+			stream << "-inff";
+			break;
+		case 7:
+			stream << "+inf";
+			break;
+		case 8:
+			stream << "+inff";
+			break;
 	}
 	stream << std::endl;
-
 	stream << std::fixed << std::setprecision(scalartypes.getLenDecimal());
-	if(scalartypes.getValid() != VALID)
+	if(scalartypes.getType() == NAN || scalartypes.getType() == NEGINF || scalartypes.getType() == NEGINFF \
+	|| scalartypes.getType() == POSINF || scalartypes.getType() == POSINFF)
 	{
 		stream << "char: " << "impossible" << "\n";
 		stream << "int: " << "impossible" << "\n";
-		switch (scalartypes.getValid())
+		switch (scalartypes.getType())
 		{
-			case ERROR:
+			case NAN:
 				stream << "float: " << "nan" << "f" << "\n";
 				stream << "double: " << "nan" << "\n";
 				break;
 			case NEGINF:
+			case NEGINFF:
 				stream << "float: " << "-inf" << "f" << "\n";
 				stream << "double: " << "-inf" << "\n";
 				break;
 			case POSINF:
+			case POSINFF:
 				stream << "float: " << "+inf" << "f" << "\n";
 				stream << "double: " << "+inf" << "\n";
 				break;
@@ -283,4 +317,3 @@ std::ostream	&operator<<(std::ostream &stream, ScalarTypes const &scalartypes)
 	}
 	return (stream);
 }
-

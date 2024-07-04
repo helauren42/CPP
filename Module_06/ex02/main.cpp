@@ -6,7 +6,7 @@
 /*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 01:49:44 by helauren          #+#    #+#             */
-/*   Updated: 2024/05/14 18:22:06 by helauren         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:44:16 by helauren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,6 @@
 #include "C.hpp"
 #include <stdint.h>
 #include <stdlib.h>
-
-	// Base *ret;
-	// Base	*ptr = new Base();
-	// uintptr_t rand;
-	// static	uintptr_t previous = 0;
-	// static	uintptr_t preprevious = 0;
-
-	// rand = reinterpret_cast<uintptr_t>(ptr);
-	// rand -= 1;
-	// rand = (rand / 12) * 17 ;
-	// rand -= 1;
-	// if((int)previous == (int)rand)
-	// {
-	// 	rand = rand % 1000;
-	// 	rand--;
-	// 	rand = rand * 5;
-	// }
-	// if((int)preprevious == (int)rand)
-	// {
-	// 	rand = rand % 50;
-	// 	rand++;
-	// 	rand = rand *7;
-	// }
 
 Base *generate(uintptr_t addr)
 {
@@ -108,17 +85,17 @@ int	main(int ac, char **av, char **env)
 	identify(p);
 	delete p;
 	std::cout << std::endl;
-	
+
 	p = generate(addr);
 	identify(p);
 	delete p;
 	std::cout << std::endl;
-	
+
 	p = generate(addr);
 	identify(p);
 	delete p;
 	std::cout << std::endl;
-	
+
 	p = generate(addr);
 	identify(p);
 	delete p;

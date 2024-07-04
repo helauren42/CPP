@@ -8,15 +8,18 @@ enum
 	numChar,
 	numFloat,
 	numDouble,
-	numInt
+	numInt,
+	NAN,
+	NEGINF,
+	NEGINFF,
+	POSINF,
+	POSINFF
 };
 
 enum //error types
 {
 	VALID,
 	ERROR,
-	POSINF,
-	NEGINF
 };
 
 class	ScalarTypes
