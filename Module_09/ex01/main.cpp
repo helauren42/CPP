@@ -51,14 +51,10 @@ int main(int ac, char **av)
 	try
 	{
 		std::queue<std::string>	args;
-		cout << "here1\n";
 		for(int i = 1; av[i]; i++)
 			args.push(av[i]);
-		cout << "here1\n";
 		RPN	classy(lexirArgs(args));
-		cout << "here1\n";
 		classy.isValidContent();
-		cout << "here1\n";
 		classy.executeOperations();
 	}
 	catch(const std::exception& e)

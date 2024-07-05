@@ -12,6 +12,7 @@
 #include <array>
 #include <exception>
 #include <map>
+#include <deque>
 
 class PmergeMe
 {
@@ -22,8 +23,14 @@ class PmergeMe
 		PmergeMe& operator=(const PmergeMe& other);
 		PmergeMe(const PmergeMe& other);
 
+		PmergeMe(char **av);
+
 		// METHODS
 		std::vector<std::string>	convertArgs(char **av);
+		template <typename Con>
+		void	sortPairs(Con& container, int left, int right);
+		template <typename Con>
+		void	fordJohnsonSort(Con& container, int left, int right);
 
 		//EXCEPTION
 		class defaultException : public std::exception
@@ -45,7 +52,8 @@ class PmergeMe
 		};
 
 	private:
-		const static size_t	size;
-		std::vector<int> arr;
-		std::map<int, int> arr;
-};
+		int					size;
+		std::vector<int>	arr;
+		std::deque<int>		deck;
+};	
+
