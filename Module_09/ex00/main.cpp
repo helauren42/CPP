@@ -20,7 +20,6 @@ std::list<std::string> listSplitStrings(const std::string& s, const char delim)
 	std::string	test;
 	std::list<std::string>	list;
 
-	cout << s;
 	ss << s;
 	test = ss.str();
 	while(1)
@@ -28,7 +27,7 @@ std::list<std::string> listSplitStrings(const std::string& s, const char delim)
 		std::getline(ss, test, delim);
 		trimSpaces(test);
 		if(test.length() == 0)
-			continue;
+			break;
 		list.push_back(test);
 		if(ss.eof())
 			break ;
@@ -64,8 +63,7 @@ int	main(int ac, char **av, char **env)
 	while(input_stream.getline(buff, 50, '\n'))
 	{
 		content += buff;
-		// std::memset(buff, 0, buff_size);
-		// std::fill(std::begin(buff), std::end(buff), 0);
+		content += "\n";
 	}
 
 	std::list<std::string> list = listSplitStrings(content, '\n');
