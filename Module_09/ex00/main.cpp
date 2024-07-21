@@ -3,6 +3,8 @@
 #include <iostream>
 #include <list>
 #include <sstream>
+#include <cstring>
+#include "Data.hpp"
 
 void	trimSpaces(std::string& s)
 {
@@ -18,6 +20,7 @@ std::list<std::string> listSplitStrings(const std::string& s, const char delim)
 	std::string	test;
 	std::list<std::string>	list;
 
+	cout << s;
 	ss << s;
 	test = ss.str();
 	while(1)
@@ -30,23 +33,11 @@ std::list<std::string> listSplitStrings(const std::string& s, const char delim)
 		if(ss.eof())
 			break ;
 	}
+	// for(std::list<string>::iterator it = list.begin(); it != list.end(); it++)
+	// {
+	// 	cout << *it << endl;
+	// }
 	return (list);
-}
-
-void	outputData(std::list<std::string> data)
-{
-	for(std::list<std::string>::iterator it = data.begin(); it != data.end(); it++)
-	{
-		std::cout << it->
-	}
-}
-
-bool	validData(std::list<std::string> data)
-{
-	for(std::list<std::string>::iterator it = data.begin(); it != data.end(); it++)
-	{
-		
-	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -66,16 +57,26 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	};
 
-	char	buff[80000];
+	const size_t buff_size = 50;
+	char	buff[buff_size];
+	std::string	content;
 
-	input_stream.getline(buff, 80000, '\0');
-	std::string	s = buff;
-	std::list<std::string> data = listSplitStrings(s, '\n');
-	if(validData(data) == false)
+	while(input_stream.getline(buff, 50, '\n'))
 	{
-		std::cerr << "Content in the file is invalid\n";
-		return (1);
-	};
-	outputData(data);
+		content += buff;
+		// std::memset(buff, 0, buff_size);
+		// std::fill(std::begin(buff), std::end(buff), 0);
+	}
+
+	std::list<std::string> list = listSplitStrings(content, '\n');
+
+	try
+	{
+		Data data(list);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 	return (0);
 }

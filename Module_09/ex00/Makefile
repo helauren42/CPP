@@ -5,6 +5,7 @@ CXX = c++
 CXX_FLAGS = -g3 -Wall -Werror -Wextra
 
 SRCS = main.cpp \
+		Data.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
