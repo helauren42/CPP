@@ -15,7 +15,7 @@ class MutantStack : public std::stack<T>
 		: std::stack<T>()
 		{
 			*this = cpy;
-			return(*this)
+			return(*this);
 		}
 		~MutantStack()
 		{};
@@ -24,7 +24,8 @@ class MutantStack : public std::stack<T>
 			*this = rhs;
 			return (*this);
 		}
-		typedef typename std::stack<t>::container_type::iterator iterator;
+
+		typedef typename std::stack<T>::container_type::iterator iterator;
 		iterator	begin(void)
 		{
 			return (this->c.begin());
