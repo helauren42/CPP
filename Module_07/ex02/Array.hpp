@@ -15,14 +15,14 @@ class Array
 			this->arr = new T [0];
 			this->toFree = true;
 			this->arrLength = 0;
-			std::cout << "default constructor called = " << this << std::endl;
+			// std::cout << "default constructor called = " << this << std::endl;
 		}
 		Array(unsigned int n)
 		{
 			this->arr = new T [n];
 			this->toFree = true;
 			this->arrLength = n;
-			std::cout << "unsigned int size constructor called = " << this << std::endl;
+			std::cout << "Constructor for an Array of size \"" << n << "\" called"  << this << std::endl;
 		}
 		Array(Array& copy)
 		{
@@ -49,13 +49,13 @@ class Array
 
 		std::out_of_range indexValueTooLow()
 		{
-			std::out_of_range out("Index value is below 0, when it must be at least 0\n");
+			std::out_of_range out("ERROR: Index value is below 0, when it must be at least 0\n");
 			return (out);
 		}
 
 		std::out_of_range indexValueTooHigh()
 		{
-			std::out_of_range out("Index value is above the allocated space\n");
+			std::out_of_range out("ERROR: Index value is above the allocated space\n");
 			return (out);
 		}
 

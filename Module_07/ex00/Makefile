@@ -6,7 +6,7 @@
 #    By: helauren <helauren@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/27 05:58:35 by helauren          #+#    #+#              #
-#    Updated: 2024/02/27 05:58:45 by helauren         ###   ########.fr        #
+#    Updated: 2024/07/21 14:28:49 by helauren         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CXX = c++ -std=c++98
 
 CXX_FLAGS = -Wall -Werror -Wextra
 
-SRCS = ./src/main.cpp \
+SRCS = ./main.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

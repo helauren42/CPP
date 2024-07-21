@@ -6,7 +6,7 @@
 /*   By: helauren <helauren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 06:33:32 by helauren          #+#    #+#             */
-/*   Updated: 2024/05/15 03:16:58 by helauren         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:06:03 by helauren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ int	main(void)
 	std::string arrString[4] = {"abc", "dfg", "hij", "klm"};
 
 	iter(arrString, 4, output);
-	// iter(arrString, 10, incrOutput);
 	iter(arrString, 4, init97);
 	iter(arrString, 4, output);
 }
-
-// int	main(void)
-// {
-// 	char a = 0;
-// 	std::cout << "a = " << a << "\n";
-// }
