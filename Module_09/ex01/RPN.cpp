@@ -13,30 +13,6 @@ RPN::~RPN()
 
 // EXCEPTIONS
 
-RPN::defaultException::defaultException(const std::string& s)
-:error_message(s)
-{}
-
-RPN::defaultException::~defaultException()
-{}
-
-const char* RPN::defaultException::what() const throw()
-{
-	return(this->error_message.c_str());
-}
-
-RPN::logicalErrorException::logicalErrorException(const std::string& s)
-:error_message("Logical error found in input: " + s)
-{}
-
-RPN::logicalErrorException::~logicalErrorException()
-{}
-
-const char* RPN::logicalErrorException::what() const throw()
-{
-	return (this->error_message.c_str());
-}
-
 bool    RPN::validOperators(const std::string& s) const
 {
 	if(s.length() > 1)
@@ -60,9 +36,9 @@ int vectorLength(const std::vector<T>& vec)
 
 bool	RPN::isValidNum(const std::string& s) const
 {
-	if(s.length() == 1 && std::isdigit(s[0]) == true)
+	if(s.length() == 1 && std::isdigit(s[0]) != false)
 		return (true);
-	else if (s.length() == 2 && s[0] == '-' && std::isdigit(s[1]) == true)
+	else if (s.length() == 2 && s[0] == '-' && std::isdigit(s[1]) != false)
 		return (true);
 	return (false);
 }
@@ -82,9 +58,10 @@ bool	RPN::isValidContent() const
 		s = temp1.front();
 		if(s.length() > 2)
 			throw (defaultException("String provided too long: " + s));
-		else
+		else {
 			if(this->isValidNum(s) == false && this->validOperators(s) == false)
-				throw (defaultException("Error: this is not a number nor an operator " + s));
+				throw (defaultException("Error: this is not a valid number nor a valid operator " + s));
+		}
 		temp1.pop();
 	}
 

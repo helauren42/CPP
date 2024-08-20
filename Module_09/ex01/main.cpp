@@ -45,7 +45,7 @@ int main(int ac, char **av)
 	if(ac < 2)
 	{
 		cerr << "You need to pass to pass a Polish Mathematical Expression as argument" << endl;
-		cerr << "EX: ./RPN 5 8 + 4 *" << endl;
+		cerr << "EX: ./RPN \"5 8 + 4 *\"" << endl;
 		return (1);
 	}
 	try

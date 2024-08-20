@@ -39,9 +39,12 @@ class RPN
 		class	defaultException : public std::exception
 		{
 			public:
-				defaultException(const std::string& s);
-				~defaultException();
-				const char* what() const throw();
+				defaultException(const std::string& s)
+				:error_message(s){}
+				virtual ~defaultException() throw(){};
+				virtual const char* what() const throw() {
+						return(this->error_message.c_str());
+				};
 			private:
 				std::string	error_message;
 		};
@@ -49,9 +52,12 @@ class RPN
 		class	logicalErrorException : public std::exception
 		{
 			public:
-				logicalErrorException(const std::string& s);
-				~logicalErrorException();
-				const char* what() const throw();
+				logicalErrorException(const std::string& s) 
+				:error_message("Logical error found in input: " + s){};
+				virtual ~logicalErrorException() throw() {};
+				virtual const char* what() const throw() {
+					return (this->error_message.c_str());
+				};
 			private:
 				std::string	error_message;
 		};
