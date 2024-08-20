@@ -36,7 +36,6 @@ void	BitcoinExchange::init_db(const string& dbName) {
 	while (std::getline(input_stream, line)) {
 		std::size_t pos = line.find(',');
 		if(pos == std::string::npos || line.length() < 10 || std::isdigit(line[0]) == false || std::isdigit((line[line.size() -1]) == false)) {
-			cerr << "Line in database ignored: " << line << endl;
 			continue;
 		}
 		date = line.substr(0, pos);
@@ -46,25 +45,56 @@ void	BitcoinExchange::init_db(const string& dbName) {
 	}
 }
 
+bool monthis31(int month) {
+	if (month == 1 || month == 3 || month == 5
+		|| month == 7 || month == 8 || month == 10
+		|| month == 12)
+		return true;
+	return false;
+}
+
+bool isLeapYear(int year) {
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool	splitDate(const string& date) {
+	int year, month, day;
+	char dash;
+	
+	std::stringstream ss(date);
+	ss >> year >> dash >> month >> dash >> day;
+	
+	if(year > 2024 || month < 1 || month > 12 || day < 1)
+		return false;
+	if(month == 2 && isLeapYear(year) == true && day == 29)
+		return true;
+	if(day > 31 
+		|| (monthis31(month) == false && day > 30) 
+		|| month == 2 && day > 28)
+		return false;
+	return true;
+}
+
 bool BitcoinExchange::validDate(const string& date) {
 	if(date.size() != 10)
 		return false;
 	for(int i = 0; i != date.size(); i++) {
-		if(std::isdigit(date[i]) == false || date[i] != '-')
+		if(std::isdigit(date[i]) == false && date[i] != '-') {
 			return false;
-		if((i == 4 || i == 7) && date[i] != '-') {
-			return false;
+		}
+		if((i == 4 || i == 7)) {
+			if(date[i] != '-')
+				return false;
 		}
 		else if (isdigit(date[i]) == false) {
 			return false;
 		}
 	}
-	int year;
-	int month;
-	int day;
-	std::stringstream ss(date);
-	if(year)
-	return true;
+	return splitDate(date);
 }
 
 bool BitcoinExchange::validValue(double &value) {
@@ -74,7 +104,13 @@ bool BitcoinExchange::validValue(double &value) {
 }
 
 double	BitcoinExchange::getBitcoinPrice(const string& date) {
-	priceDate[date];
+	std::map<string, double>::iterator it = priceDate.lower_bound(date);
+	if(it == priceDate.end() || date < it->first) {
+		throw Custom("Could not find date in database it's too early => " + date);
+	}
+	if(it->first != date)
+		it--;
+	return it->second;
 }
 
 void	BitcoinExchange::processLine(const string& line) {
@@ -106,8 +142,7 @@ void	BitcoinExchange::processInput(const string& inputFile) {
 	std::ifstream	input_stream;
 	input_stream.open(inputFile.c_str());
 	if(input_stream.is_open() == false) {
-		cerr << "Input file failed to open";
-		throw Error();
+		throw Custom("Input file failed to open");
 	}
 	
 	string line;
@@ -117,5 +152,4 @@ void	BitcoinExchange::processInput(const string& inputFile) {
 			continue;
 		processLine(line);
 	}
-	
 }
