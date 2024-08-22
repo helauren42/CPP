@@ -39,6 +39,8 @@ void	BitcoinExchange::init_db(const string& dbName) {
 			continue;
 		}
 		date = line.substr(0, pos);
+		if(this->earliestDate.empty() == true)
+			earliestDate = date;
 		std::stringstream ss(line.substr(pos +1, line.length() - pos));
 		ss >> price;
 		priceDate.insert(std::make_pair(date, price));
@@ -72,8 +74,8 @@ bool	splitDate(const string& date) {
 		return false;
 	if(month == 2 && isLeapYear(year) == true && day == 29)
 		return true;
-	if(day > 31 
-		|| (monthis31(month) == false && day > 30) 
+	if(day > 31
+		|| (monthis31(month) == false && day > 30)
 		|| month == 2 && day > 28)
 		return false;
 	return true;
@@ -105,7 +107,7 @@ bool BitcoinExchange::validValue(double &value) {
 
 double	BitcoinExchange::getBitcoinPrice(const string& date) {
 	std::map<string, double>::iterator it = priceDate.lower_bound(date);
-	if(it == priceDate.end() || date < it->first) {
+	if(it == priceDate.end() || date < earliestDate) {
 		throw Custom("Could not find date in database it's too early => " + date);
 	}
 	if(it->first != date)

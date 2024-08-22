@@ -85,5 +85,6 @@ class BitcoinExchange
 				std::string message;
 		};
 	private:
-		std::map<std::string, double> priceDate;
+		std::map<std::string, double>	priceDate;
+		string							earliestDate;
 };
