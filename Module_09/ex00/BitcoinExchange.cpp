@@ -27,8 +27,7 @@ void	BitcoinExchange::init_db(const string& dbName) {
 	std::ifstream	input_stream;
 	input_stream.open(dbName.c_str());
 	if(input_stream.is_open() == false) {
-		cerr << "Database failed to open\n";
-		throw Error();
+		throw ("ERROR: Database failed to open");
 	}
 
 	std::string line, date;
@@ -66,10 +65,10 @@ bool isLeapYear(int year) {
 bool	splitDate(const string& date) {
 	int year, month, day;
 	char dash;
-	
+
 	std::stringstream ss(date);
 	ss >> year >> dash >> month >> dash >> day;
-	
+
 	if(year > 2024 || month < 1 || month > 12 || day < 1)
 		return false;
 	if(month == 2 && isLeapYear(year) == true && day == 29)
@@ -108,7 +107,7 @@ bool BitcoinExchange::validValue(double &value) {
 double	BitcoinExchange::getBitcoinPrice(const string& date) {
 	std::map<string, double>::iterator it = priceDate.lower_bound(date);
 	if(it == priceDate.end() || date < earliestDate) {
-		throw Custom("Could not find date in database it's too early => " + date);
+		throw ("Could not find date in database it's too early => " + date);
 	}
 	if(it->first != date)
 		it--;
@@ -120,7 +119,7 @@ void	BitcoinExchange::processLine(const string& line) {
 	try {
 		size_t split_pos = line.find('|');
 		if(split_pos == std::string::npos)
-			throw LineInvalid(line);
+			throw ("ERROR: verify line => " + line);
 
 		string	date = line.substr(0, split_pos);
 		double	value;
@@ -129,22 +128,22 @@ void	BitcoinExchange::processLine(const string& line) {
 		ss >> value;
 		this->trimSpaces(date);
 		if(this->validDate(date) == false)
-			throw Custom("Date is not valid => " + date);
+			throw ("Date is not valid => " + date);
 		if(this->validValue(value) == false)
-			throw Custom("Value is out of range => " + str_value);
+			throw ("Value is out of range => " + str_value);
 		double price = getBitcoinPrice(date);
 		std::cout << date << " => " << value << " = " << value * price << std::endl;
 	}
-	catch(const std::exception& e) {
-		cerr << e.what() << '\n';
+	catch(std::string e) {
+		cerr << e << '\n';
 	}
 }
 
-void	BitcoinExchange::processInput(const string& inputFile) {
+void	BitcoinExchange::processFileInput(const string& inputFile) {
 	std::ifstream	input_stream;
 	input_stream.open(inputFile.c_str());
 	if(input_stream.is_open() == false) {
-		throw Custom("Input file failed to open");
+		throw ("Input file failed to open");
 	}
 	
 	string line;

@@ -8,14 +8,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 
-	try
-	{
-		BitcoinExchange btc("data.csv");
-		btc.processInput(av[1]);
-	}
-	catch(const std::exception& e) 
-	{
-		std::cerr << e.what() << '\n';
-	}
+	BitcoinExchange btc("data.csv");
+	btc.processFileInput(av[1]);
 	return (0);
 }
