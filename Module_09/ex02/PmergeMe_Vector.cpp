@@ -102,7 +102,7 @@ void	PmergeMe::unPairVector() {
 void PmergeMe::binarySearchVector(int element, int x_max) {
     int start = 0;
     int mid;
-    
+
     while (start <= x_max) {
         mid = start + (x_max - start) / 2;
         if (this->vec[mid] < element)
@@ -111,14 +111,13 @@ void PmergeMe::binarySearchVector(int element, int x_max) {
             x_max = mid - 1;
     }
     
-    // Insert at the correct position
     if (start < this->vec.size()) {
         if (element > this->vec[start])
             this->vec.insert(this->vec.begin() + start + 1, element);
         else
             this->vec.insert(this->vec.begin() + start, element);
     } else {
-        this->vec.insert(this->vec.end(), element); // Handle insertion at the end
+        this->vec.push_back(element);
     }
 }
 
@@ -155,7 +154,6 @@ void	PmergeMe::sortVector() {
 	outputVecPair(this->vecPair);
 	cout << "unpair vec" << endl;
 	this->unPairVector();
-	outputVec(this->vec);
 	cout << "JACOB" << endl;
 	this->JacobsthalInsert();
 	cout << "END" << endl;
