@@ -69,7 +69,7 @@ bool	splitDate(const string& date) {
 	std::stringstream ss(date);
 	ss >> year >> dash >> month >> dash >> day;
 
-	if(year > 2024 || month < 1 || month > 12 || day < 1)
+	if(year > 2023 || month < 1 || month > 12 || day < 1)
 		return false;
 	if(month == 2 && isLeapYear(year) == true && day == 29)
 		return true;
