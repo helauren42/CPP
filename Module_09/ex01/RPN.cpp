@@ -87,30 +87,24 @@ bool	RPN::isValidContent() const
 int	RPN::compute(int first, int second, char c)
 {
 	int	result = 0;
-	if(c == '+')
-	{
+	if(c == '+') {
 		result = first + second;
 		cout << "+\n";
 	}
-	if(c == '-')
-	{
+	if(c == '-') {
 		result = first - second;
 		cout << "-\n";
 	}
-	if(c == '/')
-	{
+	if(c == '/') {
 		result = first / second;
 		cout << "/\n";
 	}
-	if(c == '*')
-	{
+	if(c == '*') {
 		result = first * second;
 		cout << "*\n";
 	}
-	cout << "first: " << first << ", second: " << second << ", result: " <<  result << endl;
 	return (result);
 }
-
 
 void	RPN::executeOperations()
 {
@@ -121,8 +115,7 @@ void	RPN::executeOperations()
 	while (this->raw_content.empty() == false)
 	{
 		s = this->raw_content.front();
-		if(this->isValidNum(s) == true)
-		{
+		if(this->isValidNum(s) == true) {
 			ss.str("");
 			ss.clear();
 			s = this->raw_content.front();
@@ -130,8 +123,7 @@ void	RPN::executeOperations()
 			ss >> num;
 			this->stack.push(num);
 		}
-		else
-		{
+		else {
 			int	second = stack.top();
 			this->stack.pop();
 			int	first = stack.top();
@@ -140,5 +132,4 @@ void	RPN::executeOperations()
 		}
 		this->raw_content.pop();
 	}
-	cout << "FINAL RESULT IS: " << this->stack.top() << endl; 
 }

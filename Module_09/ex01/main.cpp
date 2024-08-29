@@ -1,9 +1,8 @@
 #include "RPN.hpp"
 
-
 std::queue<std::string> lexirArgs(std::queue<std::string> args)
 {
-	std::queue<std::string>		vec;
+	std::queue<std::string>		split;
 	std::stringstream			ss;
 	std::string					temp;
 
@@ -14,13 +13,14 @@ std::queue<std::string> lexirArgs(std::queue<std::string> args)
 		ss >> temp;
 		while(temp.empty() == false)
 		{
-			vec.push(temp);
+			split.push(temp);
 			temp.erase(0, temp.length());
 			ss >> temp;
 		}
 		args.pop();
 	}
-	return (vec);
+	outputQueue(split);
+	return (split);
 }
 
 void	outputQueue(std::queue<std::string> s)
@@ -31,14 +31,6 @@ void	outputQueue(std::queue<std::string> s)
 		s.pop();
 	}
 }
-
-// void	outputStringVector(std::vector<std::string> s)
-// {
-// 	for(std::vector<std::string>::iterator it = s.begin(); it != s.end(); it++)
-// 	{
-// 		std::cout << *it << endl;
-// 	}
-// }
 
 int main(int ac, char **av)
 {
