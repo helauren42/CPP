@@ -65,7 +65,7 @@ void	PmergeMe::convertArgs(char **av)
 				break ;
 			for(std::string::iterator it = temp.begin(); it != temp.end(); it++)
 				if(std::isdigit(*it) == false)
-					throw ("Found none digit character: " + *it);
+					throw (&"Found none digit character: " + *it);
 			ss_int << temp;
 			if(!(ss_int >> num))
 				throw ("an argument is not a number");

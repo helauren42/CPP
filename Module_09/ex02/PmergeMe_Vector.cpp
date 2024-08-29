@@ -18,7 +18,6 @@ void outputVecPair(const std::vector<std::pair<T1, T2>>& vect) {
     std::cout << std::endl;
 }
 
-
 void	PmergeMe::sortPairVector() {
 	int odd = 0;
 	if(this->vec.size() % 2)
@@ -26,8 +25,6 @@ void	PmergeMe::sortPairVector() {
 	std::pair<int, int> _pair;
 
 	for (vec_int_it it = this->vec.begin(); it <= this->vec.end() -1 -odd; it += 2) {
-		cout << "it: " << *it << endl;
-		cout << "it+1: " << *(it+1) << endl;
 		if (*it < *(it + 1)) {
 			_pair = std::make_pair(*it, *(it + 1));
 		}
@@ -39,7 +36,6 @@ void	PmergeMe::sortPairVector() {
 }
 
 vec_pair_int	PmergeMe::mergeSortPairVector(vec_pair_int mini_vec) {
-
 	if(mini_vec.size() < 2)
 		return mini_vec;
 	int mid_pos = mini_vec.size() / 2;
@@ -80,7 +76,6 @@ void	PmergeMe::unPairVector() {
 	}
 	this->vec.clear();
 	
-	std::cout << "pair: " << std::endl;
 	outputVecPair(this->vecPair);
 	this->vec.push_back(this->vecPair.begin()->first);
 	int i = 0;
@@ -92,11 +87,6 @@ void	PmergeMe::unPairVector() {
 	}
 	if(last != -1)
 		this->vecTemp.push_back(last);
-
-	std::cout << "left vector: " << std::endl;
-	outputVec(vecTemp);
-	std::cout << "_vector: " << std::endl;
-	outputVec(vec);
 }
 
 void PmergeMe::binarySearchVector(int element, int x_max) {
@@ -128,13 +118,10 @@ void	PmergeMe::JacobsthalInsert() {
 	for(vector<unsigned long>::iterator it = jacobsthal_diff.begin(); it != jacobsthal_diff.end(); it++) {
 		x_max = x + *it;
 		y_max = y + *it;
-		cout << "\nx_max: " << x_max << endl;
 		if(y_max > this->vecTemp.size()) {
-			cout << "break size: " << vec.size() << endl;
 			break;
 		}
 		while(y_max-- != y) {
-			cout << "y_max: " << y_max << endl;
 			this->binarySearchVector(this->vecTemp[y_max], x_max);
 		}
 		x += *it * 2;
@@ -146,15 +133,10 @@ void	PmergeMe::JacobsthalInsert() {
 }
 
 void	PmergeMe::sortVector() {
-	cout << "sortpair" << endl;
 	this->sortPairVector();
 	outputVecPair(this->vecPair);
-	cout << "merge sortpair" << endl;
 	this->vecPair = this->mergeSortPairVector(this->vecPair);
 	outputVecPair(this->vecPair);
-	cout << "unpair vec" << endl;
 	this->unPairVector();
-	cout << "JACOB" << endl;
 	this->JacobsthalInsert();
-	cout << "END" << endl;
 }
